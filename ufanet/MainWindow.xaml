@@ -1,0 +1,183 @@
+﻿<Window x:Class="UfanetApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Уфанет" Height="600" Width="900"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None" AllowsTransparency="True"
+        Background="Transparent">
+
+    <!-- Основной контейнер -->
+    <Border CornerRadius="20" Background="White">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="25" ShadowDepth="5" Opacity="0.25"/>
+        </Border.Effect>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="70"/>
+                <!-- Верхняя панель -->
+                <RowDefinition Height="*"/>
+                <!-- Центральная часть -->
+                <RowDefinition Height="60"/>
+                <!-- Нижняя часть -->
+            </Grid.RowDefinitions>
+
+            <!-- ========== ВЕРХНЯЯ ЧАСТЬ (логотип + название) ========== -->
+            <Border Grid.Row="0" Background="#005B9F" CornerRadius="20,20,0,0">
+                <Grid Margin="25,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Иконка -->
+                    <Border Grid.Column="0" Width="40" Height="40" 
+                            Background="White" CornerRadius="10"
+                            Margin="0,0,15,0">
+                        <TextBlock Text="🌐" FontSize="24" 
+                                   HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center"/>
+                    </Border>
+
+                    <!-- Название -->
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" 
+                                VerticalAlignment="Center">
+                        <TextBlock Text="УФАНЕТ" FontSize="28" FontWeight="Bold" 
+                                   Foreground="White" FontFamily="Segoe UI"/>
+                        <TextBlock Text=" | Управление абонентами" FontSize="16" 
+                                   Foreground="#E0E0E0" VerticalAlignment="Bottom" 
+                                   Margin="10,0,0,5"/>
+                    </StackPanel>
+
+                    <!-- Кнопка закрытия -->
+                    <Button x:Name="btnClose" Grid.Column="2" Content="✖" 
+                            Width="35" Height="35" Cursor="Hand"
+                            Background="Transparent" Foreground="White" 
+                            FontSize="16" BorderThickness="0"
+                            Click="btnClose_Click">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}" 
+                                        CornerRadius="8">
+                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                      VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#E81123"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </Grid>
+            </Border>
+
+            <!-- ========== ЦЕНТРАЛЬНАЯ ЧАСТЬ (только кнопка) ========== -->
+            <Grid Grid.Row="1" Background="White">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" 
+                            TextBlock.FontFamily="Segoe UI">
+
+                    <!-- Анимационная иконка -->
+                    <Border Width="120" Height="120" CornerRadius="60" 
+                            Background="#E8F0FE" Margin="0,0,0,30">
+                        <TextBlock Text="📡" FontSize="64" 
+                                   HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center">
+                            <TextBlock.RenderTransform>
+                                <ScaleTransform x:Name="iconScale" CenterX="32" CenterY="32"/>
+                            </TextBlock.RenderTransform>
+                        </TextBlock>
+                    </Border>
+
+                    <!-- Приветствие -->
+                    <TextBlock Text="Добро пожаловать!" FontSize="32" FontWeight="Bold" 
+                               Foreground="#005B9F" HorizontalAlignment="Center"/>
+
+                    <TextBlock Text="Управляйте базой данных абонентов в несколько кликов" 
+                               FontSize="16" Foreground="#666666" 
+                               HorizontalAlignment="Center" Margin="0,10,0,40"/>
+
+                    <!-- Главная кнопка -->
+                    <Button x:Name="btnOpenTable" Content="🚀  НАЧАТЬ РАБОТУ" 
+                            Width="280" Height="65" Click="btnOpenTable_Click"
+                            Cursor="Hand">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="#005B9F" CornerRadius="35">
+                                    <Border.RenderTransform>
+                                        <ScaleTransform x:Name="scaleTransform"/>
+                                    </Border.RenderTransform>
+                                    <Border.Effect>
+                                        <DropShadowEffect BlurRadius="10" 
+                                                          ShadowDepth="2" 
+                                                          Opacity="0.3"/>
+                                    </Border.Effect>
+                                    <StackPanel Orientation="Horizontal" 
+                                                HorizontalAlignment="Center" 
+                                                VerticalAlignment="Center">
+                                        <TextBlock Text="🚀" FontSize="24" Margin="0,0,10,0"/>
+                                        <TextBlock Text="НАЧАТЬ РАБОТУ" FontSize="18" 
+                                                   FontWeight="Bold" Foreground="White"/>
+                                    </StackPanel>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Trigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="scaleTransform"
+                                                                   Storyboard.TargetProperty="ScaleX"
+                                                                   To="1.05" Duration="0:0:0.1"/>
+                                                    <DoubleAnimation Storyboard.TargetName="scaleTransform"
+                                                                   Storyboard.TargetProperty="ScaleY"
+                                                                   To="1.05" Duration="0:0:0.1"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.EnterActions>
+                                        <Trigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="scaleTransform"
+                                                                   Storyboard.TargetProperty="ScaleX"
+                                                                   To="1" Duration="0:0:0.1"/>
+                                                    <DoubleAnimation Storyboard.TargetName="scaleTransform"
+                                                                   Storyboard.TargetProperty="ScaleY"
+                                                                   To="1" Duration="0:0:0.1"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.ExitActions>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <!-- ========== НИЖНЯЯ ЧАСТЬ (как было) ========== -->
+            <Border Grid.Row="2" Background="#F8F9FA" 
+                    CornerRadius="0,0,20,20" BorderBrush="#E0E0E0" 
+                    BorderThickness="0,1,0,0">
+                <Grid>
+                    <TextBlock Text="© 2026 Уфанет - Все права защищены" 
+                               FontSize="12" Foreground="#AAAAAA" 
+                               HorizontalAlignment="Center" 
+                               VerticalAlignment="Center"/>
+
+                    <!-- Дополнительные иконки внизу справа -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" 
+                                VerticalAlignment="Center" Margin="0,0,20,0">
+                        <TextBlock Text="🔒" Margin="5,0" Cursor="Hand" 
+                                   Foreground="#CCCCCC" FontSize="14"/>
+                        <TextBlock Text="⚙️" Margin="5,0" Cursor="Hand" 
+                                   Foreground="#CCCCCC" FontSize="14"/>
+                        <TextBlock Text="❓" Margin="5,0" Cursor="Hand" 
+                                   Foreground="#CCCCCC" FontSize="14"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

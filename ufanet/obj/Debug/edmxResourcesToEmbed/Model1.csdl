@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="УфанетModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="balances">
+    <Key>
+      <PropertyRef Name="balance_id" />
+    </Key>
+    <Property Name="balance_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="subscriber_id" Type="Int32" Nullable="false" />
+    <Property Name="current_balance" Type="Decimal" Precision="12" Scale="2" />
+    <NavigationProperty Name="subscribers" Relationship="Self.FK__balances__subscr__3F466844" FromRole="balances" ToRole="subscribers" />
+  </EntityType>
+  <EntityType Name="connections">
+    <Key>
+      <PropertyRef Name="connection_id" />
+    </Key>
+    <Property Name="connection_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="tariff_id" Type="Int32" Nullable="false" />
+    <Property Name="subscriber_id" Type="Int32" Nullable="false" />
+    <Property Name="connection_date" Type="DateTime" Precision="0" />
+    <Property Name="status" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="subscribers" Relationship="Self.FK__connectio__subsc__440B1D61" FromRole="connections" ToRole="subscribers" />
+    <NavigationProperty Name="tariffs" Relationship="Self.FK__connectio__tarif__4316F928" FromRole="connections" ToRole="tariffs" />
+  </EntityType>
+  <EntityType Name="payments">
+    <Key>
+      <PropertyRef Name="payment_id" />
+    </Key>
+    <Property Name="payment_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="subscriber_id" Type="Int32" Nullable="false" />
+    <Property Name="tariff_id" Type="Int32" Nullable="false" />
+    <Property Name="payment_date" Type="DateTime" Precision="0" />
+    <Property Name="amount" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="payment_method" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="subscribers" Relationship="Self.FK__payments__subscr__48CFD27E" FromRole="payments" ToRole="subscribers" />
+    <NavigationProperty Name="tariffs" Relationship="Self.FK__payments__tariff__49C3F6B7" FromRole="payments" ToRole="tariffs" />
+  </EntityType>
+  <EntityType Name="subscribers">
+    <Key>
+      <PropertyRef Name="subscriber_id" />
+    </Key>
+    <Property Name="subscriber_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="personal_account" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="full_name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="connection_date" Type="DateTime" Precision="0" />
+    <Property Name="is_active" Type="Boolean" />
+    <NavigationProperty Name="balances" Relationship="Self.FK__balances__subscr__3F466844" FromRole="subscribers" ToRole="balances" />
+    <NavigationProperty Name="connections" Relationship="Self.FK__connectio__subsc__440B1D61" FromRole="subscribers" ToRole="connections" />
+    <NavigationProperty Name="payments" Relationship="Self.FK__payments__subscr__48CFD27E" FromRole="subscribers" ToRole="payments" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="tariffs">
+    <Key>
+      <PropertyRef Name="tariff_id" />
+    </Key>
+    <Property Name="tariff_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="tariff_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="speed_mbps" Type="Int32" Nullable="false" />
+    <Property Name="price" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="is_active" Type="Boolean" />
+    <NavigationProperty Name="connections" Relationship="Self.FK__connectio__tarif__4316F928" FromRole="tariffs" ToRole="connections" />
+    <NavigationProperty Name="payments" Relationship="Self.FK__payments__tariff__49C3F6B7" FromRole="tariffs" ToRole="payments" />
+  </EntityType>
+  <Association Name="FK__balances__subscr__3F466844">
+    <End Role="subscribers" Type="Self.subscribers" Multiplicity="1" />
+    <End Role="balances" Type="Self.balances" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="subscribers">
+        <PropertyRef Name="subscriber_id" />
+      </Principal>
+      <Dependent Role="balances">
+        <PropertyRef Name="subscriber_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__connectio__subsc__440B1D61">
+    <End Role="subscribers" Type="Self.subscribers" Multiplicity="1" />
+    <End Role="connections" Type="Self.connections" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="subscribers">
+        <PropertyRef Name="subscriber_id" />
+      </Principal>
+      <Dependent Role="connections">
+        <PropertyRef Name="subscriber_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__connectio__tarif__4316F928">
+    <End Role="tariffs" Type="Self.tariffs" Multiplicity="1" />
+    <End Role="connections" Type="Self.connections" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tariffs">
+        <PropertyRef Name="tariff_id" />
+      </Principal>
+      <Dependent Role="connections">
+        <PropertyRef Name="tariff_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__payments__subscr__48CFD27E">
+    <End Role="subscribers" Type="Self.subscribers" Multiplicity="1" />
+    <End Role="payments" Type="Self.payments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="subscribers">
+        <PropertyRef Name="subscriber_id" />
+      </Principal>
+      <Dependent Role="payments">
+        <PropertyRef Name="subscriber_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__payments__tariff__49C3F6B7">
+    <End Role="tariffs" Type="Self.tariffs" Multiplicity="1" />
+    <End Role="payments" Type="Self.payments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tariffs">
+        <PropertyRef Name="tariff_id" />
+      </Principal>
+      <Dependent Role="payments">
+        <PropertyRef Name="tariff_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="УфанетEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="balances" EntityType="Self.balances" />
+    <EntitySet Name="connections" EntityType="Self.connections" />
+    <EntitySet Name="payments" EntityType="Self.payments" />
+    <EntitySet Name="subscribers" EntityType="Self.subscribers" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="tariffs" EntityType="Self.tariffs" />
+    <AssociationSet Name="FK__balances__subscr__3F466844" Association="Self.FK__balances__subscr__3F466844">
+      <End Role="subscribers" EntitySet="subscribers" />
+      <End Role="balances" EntitySet="balances" />
+    </AssociationSet>
+    <AssociationSet Name="FK__connectio__subsc__440B1D61" Association="Self.FK__connectio__subsc__440B1D61">
+      <End Role="subscribers" EntitySet="subscribers" />
+      <End Role="connections" EntitySet="connections" />
+    </AssociationSet>
+    <AssociationSet Name="FK__connectio__tarif__4316F928" Association="Self.FK__connectio__tarif__4316F928">
+      <End Role="tariffs" EntitySet="tariffs" />
+      <End Role="connections" EntitySet="connections" />
+    </AssociationSet>
+    <AssociationSet Name="FK__payments__subscr__48CFD27E" Association="Self.FK__payments__subscr__48CFD27E">
+      <End Role="subscribers" EntitySet="subscribers" />
+      <End Role="payments" EntitySet="payments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__payments__tariff__49C3F6B7" Association="Self.FK__payments__tariff__49C3F6B7">
+      <End Role="tariffs" EntitySet="tariffs" />
+      <End Role="payments" EntitySet="payments" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
