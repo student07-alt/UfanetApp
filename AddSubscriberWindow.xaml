@@ -1,0 +1,44 @@
+﻿<Window x:Class="UfanetApp.AddSubscriberWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Добавление абонента" Height="400" Width="450"
+        WindowStartupLocation="CenterOwner">
+
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Добавление нового абонента" FontSize="16" FontWeight="Bold" 
+                   Foreground="#005B9F" Margin="0,0,0,15"/>
+
+        <TextBlock Grid.Row="1" Text="Лицевой счет:" Margin="0,5"/>
+        <TextBox x:Name="tbPersonalAccount" Grid.Row="2" Margin="0,0,0,10" Height="30"/>
+
+        <TextBlock Grid.Row="3" Text="ФИО:" Margin="0,5"/>
+        <TextBox x:Name="tbFullName" Grid.Row="4" Margin="0,0,0,10" Height="30"/>
+
+        <TextBlock Grid.Row="5" Text="Телефон:" Margin="0,5"/>
+        <TextBox x:Name="tbPhone" Grid.Row="6" Margin="0,0,0,10" Height="30"/>
+
+        <TextBlock Grid.Row="7" Text="Адрес:" Margin="0,5"/>
+        <TextBox x:Name="tbAddress" Grid.Row="8" Margin="0,0,0,15" Height="30"/>
+
+        <StackPanel Grid.Row="9" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button x:Name="btnSave" Content="Сохранить" Width="100" Height="35" 
+                    Margin="0,0,10,0" Click="btnSave_Click"
+                    Background="#28A745" Foreground="White" FontWeight="Bold"/>
+            <Button x:Name="btnCancel" Content="Отмена" Width="100" Height="35" 
+                    Click="btnCancel_Click"
+                    Background="#6C757D" Foreground="White" FontWeight="Bold"/>
+        </StackPanel>
+    </Grid>
+</Window>
